@@ -1,0 +1,117 @@
+@import url("https://fonts.googleapis.com/css?family=Arima+Madurai:400,700");
+body {
+  text-align: center;
+  background-color: #ececea;
+}
+
+h1 {
+  font-family: "Arima Madurai", cursive;
+  font-weight: bold;
+}
+
+.intext {
+  font-size: 1.3em;
+  padding-left: 30px;
+  padding-right: 30px;
+  font-family: "Arima Madurai", cursive;
+}
+
+.top-controls, .boardsize-controls {
+  width: 500px;
+  margin: 0 auto;
+  background-color: #333;
+  padding: 8px;
+  margin-bottom: -8px;
+  border-radius: 10px;
+  color: #ffeeff;
+}
+
+.boardsize-controls {
+  margin-top: 10px;
+}
+
+.btn {
+  font-size: 1.1em;
+  background-color: #ffee99;
+  border: 1px solid #ffee99;
+  color: black;
+}
+
+.btn:hover, .btn:focus {
+  background-color: #ff4555;
+  border: 1px solid #ff4555;
+  color: white;
+}
+
+button {
+  margin-right: 10px;
+}
+
+.smallsize, .mediumsize, .largesize {
+  display: flex;
+  border: 8px solid #333;
+  border-radius: 10px;
+  margin: 0 auto;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.smallsize {
+  width: 616px;
+  height: 375px;
+}
+
+.mediumsize {
+  width: 786px;
+  height: 565px;
+}
+
+.largesize {
+  width: 1016px;
+  height: 815px;
+}
+
+.bigperson, .mediumperson, .smallperson {
+  box-sizing: border-box;
+  border: 1px solid #333;
+  background-color: #ffddff;
+}
+
+.bigperson {
+  width: 12px;
+  height: 12px;
+}
+
+.mediumperson {
+  width: 11px;
+  height: 11px;
+}
+
+.smallperson {
+  width: 10px;
+  height: 10px;
+}
+
+.young {
+  background-color: #ffee99;
+}
+
+.old {
+  background-color: #ff4555;
+}
+
+.dead {
+  background-color: black;
+}
+
+.slow, .medium, .fast {
+  background-color: #ffee99;
+  color: black;
+}
+
+.selected {
+  background-color: #ff4555;
+  border: 1px solid #ff4555;
+  color: white;
+}

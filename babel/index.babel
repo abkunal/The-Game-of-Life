@@ -1,0 +1,235 @@
+// A single box in the game
+var Box = React.createClass({
+  // if box is clicked change its color
+  changeLivingState: function() {
+    // a function is passed by the parent as a property to change the colour of box stored in the state of Parent
+    this.props.toggleState(this.props.index);
+  },
+  
+  render: function() {
+    return (
+      <div onClick={this.changeLivingState} className={this.props.size + " " + this.props.State.live}>
+      </div>
+    );
+  }
+});
+
+// represents the board on which all the boxes are placed
+var Board = React.createClass({
+  getInitialState: function() {
+    // Initializes the Board with 1500 boxes, with 80% boxes being dead and rest as alive
+    var arr = [];
+    for ( var i = 0; i < 1500; i++ ) {
+      if (Math.random() < 0.8){
+        arr.push({live: "dead", neighbours: 0});
+      } else {
+        arr.push({live: "young", neighbours: 0});
+      }
+    }
+    
+    return {data: arr, generations: 0, simulationSpeed: 100, boxSize: 1500, size: "smallsize", boxClass: "bigperson", rowSize: 50};
+  },
+  
+  countNeighbours: function(i) {
+    // Returns the number of alive neighbours of a box
+    var size = this.state.boxSize;
+    var rowSize = this.state.rowSize;
+    var iplus1 = (i + 1) % size;
+    var iplus50 = (i + rowSize) % size;
+    var iplus51 = (i + rowSize + 1) % size;
+    var iplus49 = (i + rowSize - 1) % size;
+    var iminus1 = i - 1;
+    var iminus50 = i - rowSize;
+    var iminus51 = i - rowSize + 1;
+    var iminus49 = i - rowSize - 1;
+    if (iminus1 < 0)
+      iminus1 = size + iminus1;
+    if (iminus50 < 0)
+      iminus50 = size + iminus50;
+    if (iminus51 < 0)
+      iminus51 = size + iminus51;
+    if (iminus49 < 0)
+      iminus49 = size + iminus49;
+    var a = [iplus1, iplus50, iplus49, iplus51, iminus1, iminus50, iminus49, iminus51];
+    var count = 0;
+    for ( var j = 0; j < 8; j++ ) {
+      if (this.state.data[a[j]].live != "dead"){
+        count++;
+        //console.log(this.state.data[a[j]].live, j);
+      }
+        
+    }
+    //console.log(count, a);
+    return count;
+  },
+  
+  boxAnalysis: function() {
+    // Goes through each box and counts the number of its alive neighbours
+    var arr = this.state.data;
+    var NumberOfNeighbours = [];
+    for (var i = 0; i < arr.length; i++) {
+      NumberOfNeighbours.push(this.countNeighbours(i));
+    }
+    //console.log(NumberOfNeighbours);
+    return NumberOfNeighbours;
+  },
+  
+  runSimulation: function() {
+    // gets the neighbours information using boxAnalysis
+    // Updates boxes as per rules of The Game of Life
+    var neigh = this.boxAnalysis();
+    var arr = this.state.data;
+    var count = 0;
+    console.log(arr.length);
+    for ( var i = 0 ; i < this.state.boxSize; i++ ) {
+      if (this.state.data[i].live !== "dead" && (neigh[i] <= 1 || neigh[i] >= 4)) {
+        arr[i].live = "dead";
+      } 
+      else if (this.state.data[i].live === "dead" && neigh[i] == 3){
+        arr[i].live = "young";
+        count++;
+      } 
+      else if (this.state.data[i].live === "young") {
+        arr[i].live  = "old";
+      }
+    }
+    
+    var gens = this.state.generations + 1;
+    this.setState({generations: gens});
+    //console.log(arr);
+    this.setState({data: arr});
+    if (count === 0) {
+      this.clearBoard();
+    }
+  },
+  timer: "", // timer to start and stop the game
+  playGame: function(dosomething) {
+    // starts the game
+    if (this.timer === "") {
+      this.timer = setInterval(this.runSimulation, this.state.simulationSpeed);
+    }
+    console.log("played")
+  },
+  
+  stopGame: function() {
+    // stops the game
+    clearInterval(this.timer);
+    this.timer = "";
+    console.log("stopped");
+  },
+  
+  slowSim: function() {
+    // slows down the simulation
+    this.setState({simulationSpeed: 350});
+    this.stopGame();
+    setTimeout(this.playGame, 351);
+  },
+  
+  mediumSim: function() {
+    // sets simulation speed to medium
+    this.setState({simulationSpeed: 200});
+    this.stopGame();
+    setTimeout(this.playGame, 351);
+  },
+  
+  fastSim: function() {
+    // sets simulation speed to fastest
+    this.setState({simulationSpeed: 100});
+    this.stopGame();
+    setTimeout(this.playGame, 351);
+  },
+  
+  clearBoard: function() {
+    // resets the board and marks all the boxes as dead
+    this.stopGame();
+    var arr = this.state.data;
+    var obj = {live: "dead", neighbours: 0};
+    for ( var i = 0; i < this.state.boxSize; i++ ) {
+      arr[i].live = "dead";
+      arr[i].neighbours = 0
+    }
+    this.setState({data: arr, generations: 0});
+    console.log("hello");
+  },
+  
+  updateSingleBox: function( i ) {
+    // updates the properties of a particular box in state data given with index i
+    var arr = this.state.data;
+    // if box is dead, give it birth
+    if ( arr[i].live == "dead" ) {
+      arr[i].live = "young";
+    } else {
+      arr[i].live = "dead";
+    }
+    this.setState({data: arr});
+  },
+  
+  fiftyThirty: function() {
+    var array = [];
+    for ( var i = 0; i < 1500; i++ ) {
+      array.push({live: "dead", neighbours: 0});
+    }
+    this.clearBoard();
+    this.setState({data: array, size: "smallsize", boxClass: "bigperson", rowSize: 50});
+  },
+  
+  seventyFifty: function() {
+    var array = [];
+    for ( var i = 0; i < 3500; i++ ) {
+      array.push({live: "dead", neighbours: 0});
+    }
+    this.clearBoard();
+    this.setState({data: array, size: "mediumsize", boxClass: "mediumperson", rowSize: 70});
+  },
+  
+  hundredEighty: function() {
+    var array = [];
+    for ( var i = 0; i < 8000; i++ ) {
+      array.push({live: "dead", neighbours: 0});
+    }
+    this.clearBoard();
+    this.setState({data: array, size: "largesize", boxClass: "smallperson", rowSize: 100});
+  },
+  
+  eachBox: function(data, i) {
+    // displays each box on the board
+    return (
+      <Box index={i} size={this.state.boxClass} State={data} toggleState={this.updateSingleBox} />
+    );
+  },
+  
+  render: function() {
+    return (
+      <div>
+        <div className="top-controls">
+        <button onClick={this.playGame} className="top-button btn">Start</button>
+        <button onClick={this.stopGame} className="top-button btn">Stop</button>
+        <button onClick={this.clearBoard} className="top-button btn">Clear</button>
+        <span className="intext">Generation: {this.state.generations}</span>
+        </div>
+        <div id="board" className={this.state.size}>
+          {this.state.data.map(this.eachBox)}
+        </div>
+        <div id="boardSize" className="boardsize-controls">
+          <span className="intext">Board Size:</span> 
+          <button onClick={this.fiftyThirty} className="btn">50 x 30</button>
+          <button onClick={this.seventyFifty} className="btn">70 x 50</button>
+          <button onClick={this.hundredEighty} className="btn">100 x 80</button>
+       <br/><br/>
+          <span className="intext">Sim Speed:</span> <button onClick={this.slowSim} className="btn slow">Slow</button>
+          <button onClick={this.mediumSim} className="btn medium">Medium</button>
+          <button onClick={this.fastSim} className="btn fast">Fast</button>
+          
+          <div><br/>
+            <span className="intext">Add as many cells you want. The cells in yellow are younger and red are older. Have Fun!</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+});
+
+ReactDOM.render(
+  <Board />,
+  document.getElementById("root")
+);
