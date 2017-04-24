@@ -166,7 +166,7 @@ var Board = React.createClass({
       array.push({ live: "dead", neighbours: 0 });
     }
     this.clearBoard();
-    this.setState({ data: array, size: "smallsize", boxClass: "bigperson", rowSize: 50 });
+    this.setState({ data: array, boxSize: 1500, size: "smallsize", boxClass: "bigperson", rowSize: 50 });
   },
 
   seventyFifty: function seventyFifty() {
@@ -175,7 +175,7 @@ var Board = React.createClass({
       array.push({ live: "dead", neighbours: 0 });
     }
     this.clearBoard();
-    this.setState({ data: array, size: "mediumsize", boxClass: "mediumperson", rowSize: 70 });
+    this.setState({ data: array, boxSize: 3500, size: "mediumsize", boxClass: "mediumperson", rowSize: 70 });
   },
 
   hundredEighty: function hundredEighty() {
@@ -184,7 +184,7 @@ var Board = React.createClass({
       array.push({ live: "dead", neighbours: 0 });
     }
     this.clearBoard();
-    this.setState({ data: array, size: "largesize", boxClass: "smallperson", rowSize: 100 });
+    this.setState({ data: array, boxSize: 8000, size: "largesize", boxClass: "smallperson", rowSize: 100 });
   },
 
   eachBox: function eachBox(data, i) {
