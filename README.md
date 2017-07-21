@@ -4,6 +4,7 @@ Convey's The Game of Life in HTML, CSS and JS. Learn about it at https://www.you
 Check out on Github at https://abkunal.github.io/The-Game-of-Life/  
 Check out on Codepen at http://codepen.io/abkunal/full/ObKKGW  
   
+Check out the video below    
 [![The Game of Life](https://github.com/abkunal/The-Game-of-Life/blob/master/The%20Game%20of%20Life.png)](https://www.youtube.com/watch?v=CpJFj2mxtlY)  
   
 ### User Stories  
